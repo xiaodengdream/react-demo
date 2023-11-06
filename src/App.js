@@ -1,20 +1,17 @@
-import React from 'react';
-import { Route, Routes} from 'react-router-dom';
-import { Button, message, ConfigProvider } from 'antd';
+import React, { Component } from 'react'
+import { Routes, Route } from 'react-router-dom';
 import Login from './pages/login'
 import Admin from './pages/admin'
 
-function App() {
-  return (
-    <ConfigProvider theme={{ token: { colorPrimary: '#00b96b' } }}>
-
+export default class App extends Component {
+  render() {
+    return (
+      //<ConfigProvider theme={{ token: { colorPrimary: '#00b96b' } }}>
       <Routes>{/* 只匹配某一个路由*/}
-        <Route path='/login' Component={Login}></Route>
-        <Route path='/' Component={Admin}></Route>
+        <Route path='/' element={<Login />} ></Route>
+        <Route path='/admin' element={<Admin />} ></Route>
       </Routes>
-
-    </ConfigProvider>
-  );
+      //</ConfigProvider>
+    );
+  }
 }
-
-export default App;
