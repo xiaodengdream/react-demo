@@ -49,7 +49,7 @@ class Login extends Component {
       memoryUtils.user = user
       //将user存入local
       storageUtils.saveUser(user)
-      this.props.navigate('/admin', { replace: true })
+      this.props.navigate('/', { replace: true })
     } else {
       //登录失败
       message.error(loginData.data.message)
@@ -59,7 +59,7 @@ class Login extends Component {
     //读取user跳转到admin页面
     const user = memoryUtils.user
     if (user.id) {
-      return < Navigate to='/admin' />
+      return < Navigate to='/' />
     }
     return (
       <div className='login'>

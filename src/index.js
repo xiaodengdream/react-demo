@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom';
 import App from './App';
+import { BrowserRouter } from 'react-router-dom'
 import memoryUtils from './utils/memoryUtils';
 import storageUtils from './utils/storageUtils';
 //读取local中保存user，保存在内存中(下次读取到内存user直接跳转到admin)
