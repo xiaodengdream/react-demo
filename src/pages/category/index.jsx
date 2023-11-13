@@ -166,9 +166,9 @@ export default function Categrory() {
       width: '25%',
       key: 'id',
       render: (_, record) => (
-        <Space size="middle">
-          <Button onClick={() => { return upLists(record) }} style={{ color: 'rgb(17,149,121)' }} size='large' type="link"> 修改分类</Button>
-          <Button disabled={pid === 1} onClick={() => { return show(record) }} style={{ color: 'rgb(17,149,121)' }} size='large' type="link">查看子分类</Button>
+        <Space size='middle'>
+          <Button onClick={() => { return upLists(record) }} style={{ color: 'rgb(17,149,121)' }} size='midden' type="link"> 修改分类</Button>
+          <Button disabled={pid === 1} onClick={() => { return show(record) }} style={{ color: 'rgb(17,149,121)' }} size='midden' type="link">查看子分类</Button>
         </Space>
       ),
     },
@@ -184,7 +184,7 @@ export default function Categrory() {
             bordered='true'
             rowKey='id'
             loading={loading}
-            pagination={{ defaultPageSize: 4, defaultCurrent: 1, showQuickJumper: true }}
+            pagination={{ defaultPageSize: 5, defaultCurrent: 1, showQuickJumper: true }}
           />
         </Card>
         <Modal title="添加分类" centered open={isModalOpen} onOk={handleOk} onCancel={handleCancel} className='category-content-model'>

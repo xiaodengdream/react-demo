@@ -9,7 +9,7 @@ export default function Left() {
   /*  console.log(location.pathname); */
   //根据当前子路由地址判断sub值（下拉菜单打开）
   function sub(params) {
-    if(['/category','/product'].indexOf(params.pathname) !== -1){
+    if(['/category','/product/home','/product/add','/product/detail'].indexOf(params.pathname) !== -1){
       return ['sub1']
     }
     if(['/bar','/line','/pie'].indexOf(params.pathname) !== -1){

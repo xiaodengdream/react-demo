@@ -9,6 +9,9 @@ import Product from '../pages/product'
 import Bar from '../pages/charts/bar'
 import Line from '../pages/charts/line'
 import Pie from '../pages/charts/pie'
+import ProductAddUpdate from '../pages/product/addUpdate'
+import ProductDetail from '../pages/product/detail'
+import ProductHome from '../pages/product/home'
 const routes = [
     { path: "/login", element: <Login /> },
     {
@@ -18,13 +21,21 @@ const routes = [
             { path: 'user', element: <User /> },
             { path: 'role', element: <Role /> },
             { path: 'category', element: <Categrory /> },
-            { path: 'product', element: <Product /> },
+            { 
+                path: 'product', element: <Product />,
+                children:[
+                    {path:'home',element:<ProductHome/>},
+                    {path:'add',element:<ProductAddUpdate/>},
+                    {path:'detail',element:<ProductDetail/>},
+                    { path: '/product', element: <Navigate to="home" /> }
+                ]
+             },
             { path: 'bar', element: <Bar /> },
             { path: 'line', element: <Line /> },
             { path: 'pie', element: <Pie /> },
             { path: "/", element: <Navigate to="home" /> }
         ]
     },
-   /*  { path: "/", element: <Navigate to="/admin/*" /> } */
+    /* { path: "/", element: <Navigate to="/admin" /> } */
 ]
 export default routes

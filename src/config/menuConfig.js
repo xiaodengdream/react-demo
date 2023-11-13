@@ -34,11 +34,11 @@ export default function menuConfig(){
           getItem(<NavLink to='/line'>折线图</NavLink>, '/line',<LineChartOutlined />),
           getItem(<NavLink to='/pie'>饼图</NavLink>, '/pie',<PieChartOutlined />)
         ]),
-        getItem('图形图标', 'sub3', <AreaChartOutlined />, [
+        /* getItem('图形图标', 'sub3', <AreaChartOutlined />, [
           getItem('柱状图', '9',<BarChartOutlined />),
           getItem('折线图', '10',<LineChartOutlined />),
           getItem('饼图', '11',<PieChartOutlined />)
-        ]),
+        ]), */
         /* getItem('图形图标', 'sub3', <AreaChartOutlined />, [
           getItem('柱状图', '12',<BarChartOutlined />),
           getItem('折线图', '13',<LineChartOutlined />),
