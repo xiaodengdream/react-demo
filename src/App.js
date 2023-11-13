@@ -1,16 +1,15 @@
-import React, { Component } from 'react'
-import { Routes, Route} from 'react-router-dom';
-import Login from './pages/login'
-import Admin from './pages/admin'
-export default class App extends Component {
-  render() {
-    return (
-      //<ConfigProvider theme={{ token: { colorPrimary: '#00b96b' } }}>
-        <Routes>{/* 只匹配某一个路由*/}
-          <Route path='*login' element={<Login />} ></Route>
-          <Route path='*' element={<Admin />} ></Route>
-        </Routes>
-      //</ConfigProvider>
-    );
-  }
+import React from 'react'
+import { useRoutes } from 'react-router-dom';
+import routes from './routes';
+import { ConfigProvider } from 'antd';
+export default function App() {
+  //定义路由规则routes
+  const element = useRoutes(routes)
+  return (
+    <ConfigProvider theme={{ token: { colorPrimary: 'rgb(17,149,121)' } }}>
+    <>
+      {element}
+    </>
+    </ConfigProvider>
+  )
 }
