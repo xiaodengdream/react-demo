@@ -7,6 +7,7 @@ export default function User() {
   const [loading, setLoading] = useState()//加载数据进度条
   const [userInfo, setUserInfo] = useState([])//所有user信息
   const [addOpen, setAddOpen] = useState(false);//新增user对话框状态
+  const [userStatu, setUserStatu] = useState(1)//判断form新增数据(1是新增) 还是更新数据(2是更新)
   const [form] = Form.useForm();//表单数据
   const [messageApi, contextHolder] = message.useMessage();//使用message
   //定义select数据
@@ -50,14 +51,43 @@ export default function User() {
   }
   //新增对话框确认
   const addHandleOk = () => {
-    createUser(form.getFieldValue())
+    if (userStatu === 1) {
+      createUser(form.getFieldValue())//获取表单数据并发送新增请求
+    }
+    if (userStatu === 2) {
+      updateUser(form.getFieldValue())//获取表单数据并发送更新请求
+    }
     setAddOpen(false);
   }
   //新增对话框取消
   const addHandleCancel = () => {
     setAddOpen(false);
   }
-  //删除用户
+  //更新用户
+  const upUserInfo = (data) => {
+    setAddOpen(true);
+    setUserStatu(2)
+    form.setFieldsValue({ ...data })//把选中的user信息回放到form中
+  }
+  //更新user用户
+  const updateUser = async (data) => {
+    const param = {
+      url: 'http://localhost:1000/user/update',
+      type: 'POST',
+      data: data
+    }
+    let userData = await ajax(param)
+    messageApi.open({
+      type: 'success',
+      content: userData.data.message,
+    });
+    if (userData.data.users) {
+      setTimeout(() => {
+        window.location.reload()
+      }, 1000);
+    } 
+  }
+  //确定删除用户
   const confirm = async (data) => {
     const param = {
       url: 'http://localhost:1000/user/delete',
@@ -76,6 +106,7 @@ export default function User() {
     }
 
   };
+  //取消删除用户
   const cancel = () => {
     messageApi.open({
       type: 'error',
@@ -87,7 +118,7 @@ export default function User() {
   }, [])
   //定义Card title
   const title = (
-    <Button onClick={() => setAddOpen(true)} type='primary'>创建用户</Button>
+    <Button onClick={() => { setAddOpen(true); setUserStatu(1); form.resetFields() }} type='primary'>创建用户</Button>
   )
   //定义表格机构
   const columns = [
@@ -120,7 +151,7 @@ export default function User() {
       title: '操作',
       key: 'id',
       render: (_, record) => (<>
-        <Button size='midden' type="link" style={{ color: 'rgb(17,149,121)' }}>修改</Button>
+        <Button onClick={() => upUserInfo(record)} size='midden' type="link" style={{ color: 'rgb(17,149,121)' }}>修改</Button>
         <Popconfirm
           title={'删除用户' + record.username}
           description='你确定要删除该用户'
@@ -134,9 +165,7 @@ export default function User() {
 
       </>),
     },
-
   ];
-
   return (
     <div className='user-content'>
       <div className='user-content-home'>
@@ -150,7 +179,7 @@ export default function User() {
             pagination={{ defaultPageSize: 5, defaultCurrent: 1, showQuickJumper: true }}
           />
         </Card>
-        <Modal title="添加用户" centered open={addOpen} onOk={addHandleOk} onCancel={addHandleCancel}>
+        <Modal title={userStatu === 1 ? '添加用户' : '更新用户'} centered open={addOpen} onOk={addHandleOk} onCancel={addHandleCancel}>
           <Form name="basic" labelCol={{ span: 5 }} wrapperCol={{ span: 13 }} form={form}>
             <Form.Item label='用户名' name="username">
               <Input placeholder="请输入用户名" />
