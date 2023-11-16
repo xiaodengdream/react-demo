@@ -5,11 +5,11 @@ import './index.less'
 import ajax from '../../api/ajax'
 import Upmodal from '../../components/upmodal';
 export default function Categrory() {
-  const [category, setCategory] = useState([])
-  const [shop, setShop] = useState([])
+  const [category, setCategory] = useState([])//一级分类数据
+  const [shop, setShop] = useState([])//二级分类数据
   const [loading, setLoading] = useState()
-  const [pid, setPid] = useState(0)
-  const [pname, setPname] = useState('')
+  const [pid, setPid] = useState(0)//根据id值判断一级还是二级分类
+  const [pname, setPname] = useState('')//title中一级分类下的二级名称
   //新增分类对话框
   const [form] = Form.useForm();//表单数据
   const [isModalOpen, setIsModalOpen] = useState(false);//对话框状态
@@ -106,7 +106,7 @@ export default function Categrory() {
     }
   }
   //修改一级或者二级分类
-  const uplists =async (data) => {
+  const uplists = async (data) => {
     const param = {
       url: data.parentId === '0' ?
         'http://localhost:1000/category/update' :
@@ -115,7 +115,7 @@ export default function Categrory() {
       data: data
     }
     setLoading(true)
-    let addData =await ajax(param)
+    let addData = await ajax(param)
     if (addData.data.data) {
       setTimeout(() => {
         setLoading(false)
@@ -187,7 +187,7 @@ export default function Categrory() {
             pagination={{ defaultPageSize: 5, defaultCurrent: 1, showQuickJumper: true }}
           />
         </Card>
-        <Modal title="添加分类" centered open={isModalOpen} onOk={handleOk} onCancel={handleCancel} className='category-content-model'>
+        <Modal title="添加分类" centered open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
           <Form name="basic" labelCol={{ span: 8 }} wrapperCol={{ span: 30 }} form={form}>
             <Form.Item> <span>所属分类：</span></Form.Item>
             <Form.Item label='' name="parentId">

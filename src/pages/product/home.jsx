@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Card, Select, Input, Button, Table, Space } from 'antd'
+import { Card, Select, Input, Button, Table} from 'antd'
 import { PlusOutlined } from '@ant-design/icons';
 export default function ProductHome() {
     const [loading, setLoading] = useState()
@@ -171,7 +171,7 @@ export default function ProductHome() {
                     bordered='true'
                     rowKey='key'
                     loading={loading}
-                    pagination={{ defaultPageSize: 6, defaultCurrent: 1, showQuickJumper: true }}
+                    pagination={{ defaultPageSize: 5, defaultCurrent: 1, showQuickJumper: true }}
                 />
             </Card>
         </div>

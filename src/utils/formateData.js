@@ -1,4 +1,4 @@
-
+//转化时间格式
 export default function formateDate(time) {
     var f = new Date(time)
     function format(date) {
