@@ -1,10 +1,10 @@
 import React from 'react'
-import '../home/index.less'
+import './index.less'
 export default function Home() {
   return (
-    <div className='content'>
-      <div className='content-home'>
-        <div className='content-div'>
+    <div className='content1'>
+      <div className='content1-home'>
+        <div className='content1-div'>
           <h2>羚羊“营销+运营”平台</h2>
           <p> 所用技术：Vue、Vuex、Vue Router、Element UI、 Axios、Less</p>
 
