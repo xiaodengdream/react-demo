@@ -164,7 +164,7 @@ export default function ProductHome() {
 
     return (
         <div className='product-content-home'>
-            <Card title={title} extra={extra}>
+            <Card title={title} extra={extra} className='product-content-card'>
                 <Table
                     columns={columns}
                     dataSource={dataSource}

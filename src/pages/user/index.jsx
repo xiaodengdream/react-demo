@@ -49,7 +49,7 @@ export default function User() {
     }
 
   }
-  //新增对话框确认
+  //新增或者更新对话框确认
   const addHandleOk = () => {
     if (userStatu === 1) {
       createUser(form.getFieldValue())//获取表单数据并发送新增请求
@@ -59,11 +59,7 @@ export default function User() {
     }
     setAddOpen(false);
   }
-  //新增对话框取消
-  const addHandleCancel = () => {
-    setAddOpen(false);
-  }
-  //更新用户
+  //修改用户按钮事件
   const upUserInfo = (data) => {
     setAddOpen(true);
     setUserStatu(2)
@@ -85,7 +81,7 @@ export default function User() {
       setTimeout(() => {
         window.location.reload()
       }, 1000);
-    } 
+    }
   }
   //确定删除用户
   const confirm = async (data) => {
@@ -113,6 +109,20 @@ export default function User() {
       content: '取消删除',
     });
   };
+  //验证字段
+  const validator = (rule, value, callback) => {
+    if (!value) {
+      return Promise.reject('字段必须输入')
+    } else if (value.length < 3) {
+      return Promise.reject('字段长度必须大于等于3')
+    } else if (value.length > 18) {
+      return Promise.reject('字段长度必须小于18')
+    } else if (!/^[a-zA-Z0-9_.@]+$/.test(value)) {
+      return Promise.reject('字段必须英文、数字或下划线组成')
+    } else {
+      return Promise.resolve()
+    }
+  }
   useEffect(() => {
     getUsers()
   }, [])
@@ -169,7 +179,7 @@ export default function User() {
   return (
     <div className='user-content'>
       <div className='user-content-home'>
-        <Card title={title}>
+        <Card title={title} className='user-content-card'>
           <Table
             columns={columns}
             dataSource={userInfo}
@@ -179,18 +189,18 @@ export default function User() {
             pagination={{ defaultPageSize: 5, defaultCurrent: 1, showQuickJumper: true }}
           />
         </Card>
-        <Modal title={userStatu === 1 ? '添加用户' : '更新用户'} centered open={addOpen} onOk={addHandleOk} onCancel={addHandleCancel}>
+        <Modal title={userStatu === 1 ? '添加用户' : '更新用户'} centered open={addOpen} onOk={addHandleOk} onCancel={() => setAddOpen(false)}>
           <Form name="basic" labelCol={{ span: 5 }} wrapperCol={{ span: 13 }} form={form}>
-            <Form.Item label='用户名' name="username">
+            <Form.Item label='用户名' name="username" rules={[{ validator: validator }]}>
               <Input placeholder="请输入用户名" />
             </Form.Item>
-            <Form.Item label='密码' name="password">
+            <Form.Item label='密码' name="password" rules={[{ validator: validator }]}>
               <Input placeholder="请输入密码" />
             </Form.Item>
-            <Form.Item label='手机号' name="phone">
+            <Form.Item label='手机号' name="phone" rules={[{ validator: validator }]}>
               <Input placeholder="请输入手机号" />
             </Form.Item>
-            <Form.Item label='邮箱' name="email">
+            <Form.Item label='邮箱' name="email" rules={[{ validator: validator }]}>
               <Input placeholder="请输入邮箱" />
             </Form.Item>
             <Form.Item label='角色' name="roleId">
