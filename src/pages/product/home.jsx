@@ -1,8 +1,59 @@
-import React, { useState } from 'react'
-import { Card, Select, Input, Button, Table} from 'antd'
+import React, { useState, useEffect } from 'react'
+import { useNavigate} from 'react-router-dom'
+import { Card, Select, Input, Button, Table, message } from 'antd'
 import { PlusOutlined } from '@ant-design/icons';
+import ajax from '../../api/ajax'
 export default function ProductHome() {
-    const [loading, setLoading] = useState()
+    const [loading, setLoading] = useState()//加载数据进度条
+    const [shopLists, setShopLists] = useState([])//商品列表
+    const [messageApi, contextHolder] = message.useMessage();//使用message
+    const navigate = useNavigate()//navigate进行页面跳转
+    //获取商品列表
+    const getShopLists = async () => {
+        const param = {
+            url: 'http://localhost:1000/commodity',
+            type: 'GET',
+        }
+       /*  setLoading(true) */
+        let shopData = await ajax(param)
+        if (shopData.data.lists) {
+         /*    setTimeout(() => {
+                setLoading(false) */
+                setShopLists(shopData.data.lists)
+          /*   }, 1000); */
+        }
+    }
+    //上架或者下架商品status:1未上架、2上架了
+    const grounding = async (data) => {
+        if (data.status === 1) {
+            data.status = 2
+        } else if (data.status === 2) {
+            data.status = 1
+        }
+        const param = {
+            url: 'http://localhost:1000/commodity/status',
+            type: 'POST',
+            data: data
+        }
+        let statusData = await ajax(param)
+        messageApi.open({
+            type: 'success',
+            content: statusData.data.message,
+        });
+        if (statusData.data.result) {
+            setTimeout(() => {
+                window.location.reload()
+            }, 1000);
+        }
+    }
+    //商品详情
+    const showDetail = (data) => {
+        navigate('/product/detail', { replace: true ,state:{data}})
+    }
+    useEffect(() => {
+        getShopLists()
+    }, [])
+    //定义card头部功能
     const title = (
         <>
             <Select placeholder="按名称搜索"
@@ -10,16 +61,12 @@ export default function ProductHome() {
                  onSearch={onSearch} */
                 options={[
                     {
-                        value: 'jack',
-                        label: 'Jack',
+                        value: '按名称搜索',
+                        label: '按名称搜索',
                     },
                     {
-                        value: 'lucy',
-                        label: 'Lucy',
-                    },
-                    {
-                        value: 'tom',
-                        label: 'Tom',
+                        value: '按描述搜索',
+                        label: '按描述搜索',
                     },
                 ]}
             />
@@ -32,113 +79,25 @@ export default function ProductHome() {
             <PlusOutlined />添加商品
         </Button>
     )
-    const dataSource = [
-        {
-            key: '1',
-            name: 'ThinkPad X1 Carbon ',
-            price: 8700,
-            detail: '英特尔Evo平台认证酷睿i7-1360P vPro'
-        },
-        {
-            key: '2',
-            name: '扬天 V14 2023 锐龙版商用笔记本',
-            price: 8700,
-            detail: '家庭中文版/16GB LPDDR5/1TB SSD/锐钜Xe显卡/14英寸2.2K 广视角LED',
-        },
-        {
-            key: '3',
-            name: '扬天 V15 2023 锐龙版商用笔记本',
-            price: '$8600',
-            detail: '家庭中文版/16GB LPDDR5/1TB SSD/锐钜Xe显卡/14英寸2.2K 广视角LED',
-        },
-        {
-            key: '4',
-            name: '扬天 V16 2023 锐龙版商用笔记本',
-            price: 6700,
-            detail: '家庭中文版/16GB LPDDR5/1TB SSD/锐钜Xe显卡/14英寸2.2K 广视角LED',
-        },
-        {
-            key: '5',
-            name: '联想拯救者Y7000P2023 英特尔酷睿i7',
-            price: '$7500',
-            detail: '家庭中文版/16GB LPDDR5/1TB SSD/锐钜Xe显卡/14英寸2.2K 广视角LED',
-        },
-        {
-            key: '6',
-            name: '联想拯救者r7000P2023 英特尔酷睿i7',
-            price: 9850,
-            detail: '家庭中文版/16GB LPDDR5/1TB SSD/锐钜Xe显卡/14英寸2.2K 广视角LED',
-        }, {
-            key: '7',
-            name: '胡彦祖',
-            price: 42,
-            detail: '家庭中文版/16GB LPDDR5/1TB SSD/锐钜Xe显卡/14英寸2.2K 广视角LED',
-        }, {
-            key: '8',
-            name: '胡彦祖',
-            price: 42,
-            detail: '家庭中文版/16GB LPDDR5/1TB SSD/锐钜Xe显卡/14英寸2.2K 广视角LED',
-        }, {
-            key: '9',
-            name: '胡彦祖',
-            price: 42,
-            detail: '家庭中文版/16GB LPDDR5/1TB SSD/锐钜Xe显卡/14英寸2.2K 广视角LED',
-        }, {
-            key: '10',
-            name: '胡彦祖',
-            price: 42,
-            detail: '家庭中文版/16GB LPDDR5/1TB SSD/锐钜Xe显卡/14英寸2.2K 广视角LED',
-        }, {
-            key: '11',
-            name: '胡彦祖',
-            price: 42,
-            detail: '家庭中文版/16GB LPDDR5/1TB SSD/锐钜Xe显卡/14英寸2.2K 广视角LED',
-        }, {
-            key: '12',
-            name: '胡彦祖',
-            price: 42,
-            detail: '家庭中文版/16GB LPDDR5/1TB SSD/锐钜Xe显卡/14英寸2.2K 广视角LED',
-        }, {
-            key: '13',
-            name: '胡彦祖',
-            price: 42,
-            detail: '家庭中文版/16GB LPDDR5/1TB SSD/锐钜Xe显卡/14英寸2.2K 广视角LED',
-        }, {
-            key: '14',
-            name: '胡彦祖',
-            price: 42,
-            detail: '家庭中文版/16GB LPDDR5/1TB SSD/锐钜Xe显卡/14英寸2.2K 广视角LED',
-        }, {
-            key: '15',
-            name: '胡彦祖',
-            price: 42,
-            detail: '家庭中文版/16GB LPDDR5/1TB SSD/锐钜Xe显卡/14英寸2.2K 广视角LED',
-        }, {
-            key: '16',
-            name: '胡彦祖',
-            price: 42,
-            detail: '家庭中文版/16GB LPDDR5/1TB SSD/锐钜Xe显卡/14英寸2.2K 广视角LED',
-        },
-
-    ];
-
+    //定义表格头部结构
     const columns = [
         {
             title: '商品名称',
             dataIndex: 'name',
-            key: 'name',
-            width: '20%',
+            key: 'id',
+            width: '25%',
         },
         {
             title: '商品描述',
-            dataIndex: 'detail',
-            key: 'detail',
+            dataIndex: 'desc',
+            key: 'id',
+            width: '55%'
         },
         {
             title: '价格',
             dataIndex: 'price',
+            key: 'id',
             width: '8%',
-            key: 'price',
             render: (price) => '￥' + price
 
         },
@@ -148,7 +107,7 @@ export default function ProductHome() {
             dataIndex: 'status',
             key: 'id',
             render: (_, record) => (
-                <Button size='midden' type="primary">下架</Button>
+                <Button onClick={() => { grounding(record) }} size='midden' type="primary">{record.status === 1 ? '上架' : '下架'}</Button>
             ),
         },
         {
@@ -156,25 +115,24 @@ export default function ProductHome() {
             width: '6%',
             key: 'id',
             render: (_, record) => (
-                <Button size='midden' type="link" style={{ color: 'rgb(17,149,121)' }}>详情修改</Button>
+                <Button onClick={()=>showDetail(record)} size='midden' type="link" style={{ color: 'rgb(17,149,121)' }}>详情修改</Button>
             ),
         },
 
     ];
-
     return (
         <div className='product-content-home'>
             <Card title={title} extra={extra} className='product-content-card'>
                 <Table
                     columns={columns}
-                    dataSource={dataSource}
+                    dataSource={shopLists}
                     bordered='true'
-                    rowKey='key'
+                    rowKey='id'
                     loading={loading}
                     pagination={{ defaultPageSize: 5, defaultCurrent: 1, showQuickJumper: true }}
                 />
             </Card>
+            {contextHolder}
         </div>
-
     )
 }
