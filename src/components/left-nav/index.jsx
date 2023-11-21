@@ -28,7 +28,7 @@ export default function Left() {
   return (
     <div className='left-nav'>
       <header className='left-nav-header'>
-        <img src={logo} />
+        <img src={logo} alt='null'/>
         <p>羚羊后台</p>
       </header>
       <div style={{ overflow: 'auto', height: '86%' }}>

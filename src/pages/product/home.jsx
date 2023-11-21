@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { Card, Select, Input, Button, Table, message } from 'antd'
 import { PlusOutlined } from '@ant-design/icons';
 import ajax from '../../api/ajax'
@@ -14,13 +14,13 @@ export default function ProductHome() {
             url: 'http://localhost:1000/commodity',
             type: 'GET',
         }
-       /*  setLoading(true) */
+        setLoading(true)
         let shopData = await ajax(param)
         if (shopData.data.lists) {
-         /*    setTimeout(() => {
-                setLoading(false) */
+            setTimeout(() => {
+                setLoading(false)
                 setShopLists(shopData.data.lists)
-          /*   }, 1000); */
+            }, 500);
         }
     }
     //上架或者下架商品status:1未上架、2上架了
@@ -48,7 +48,7 @@ export default function ProductHome() {
     }
     //商品详情
     const showDetail = (data) => {
-        navigate('/product/detail', { replace: true ,state:{data}})
+        navigate('/product/detail', { replace: true, state: { data } })
     }
     useEffect(() => {
         getShopLists()
@@ -75,7 +75,7 @@ export default function ProductHome() {
         </>
     )
     const extra = (
-        <Button type='primary'>
+        <Button onClick={() => navigate('/product/add', { replace: true, state: { type: 'add' } })} type='primary'>
             <PlusOutlined />添加商品
         </Button>
     )
@@ -89,7 +89,7 @@ export default function ProductHome() {
         },
         {
             title: '商品描述',
-            dataIndex: 'desc',
+            dataIndex: 'descs',
             key: 'id',
             width: '55%'
         },
@@ -115,7 +115,7 @@ export default function ProductHome() {
             width: '6%',
             key: 'id',
             render: (_, record) => (
-                <Button onClick={()=>showDetail(record)} size='midden' type="link" style={{ color: 'rgb(17,149,121)' }}>详情修改</Button>
+                <Button onClick={() => showDetail(record)} size='midden' type="link" style={{ color: 'rgb(17,149,121)' }}>详情修改</Button>
             ),
         },
 

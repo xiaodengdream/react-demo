@@ -17,7 +17,7 @@ export default class Bar extends Component { // 初始化状态
       // 图表背景颜色
       // backgroundColor: '#ccc',
       title: {
-        text: '小邓的echarts柱状图',
+        text: '2023年商品销售柱状图',
         left: "center",
         textStyle: {
           color: 'pink',

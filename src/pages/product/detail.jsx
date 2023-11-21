@@ -4,6 +4,7 @@ import './detail.less'
 import { Card, Button, Image } from 'antd'
 import { ArrowLeftOutlined } from '@ant-design/icons'
 import ajax from '../../api/ajax'
+import defaultImg from '../../assets/bbk.png'
 export default function ProductDetail() {
   const [detail, setDetail] = useState('')//详情页面数据
   const [categoryName, setCategoryName] = useState('')//一级分类对应名字
@@ -35,7 +36,7 @@ export default function ProductDetail() {
       setDetail(localtion.state.data)
       getListName(localtion.state.data)
     }
-  }, [])
+  }, [localtion.state.data])
   //定义Card头部信息
   const title = (
     <>
@@ -49,20 +50,19 @@ export default function ProductDetail() {
         <Card title={title} className='detail-content-card'>
           <div className='detail-content-box'>
             <span><p style={{ fontFamily: 'Arial', fontWeight: 'bold' }}>商品名称 ：</p>{detail.name}</span>
-            <span><p style={{ fontFamily: 'Arial', fontWeight: 'bold' }}>商品描述：</p>{detail.desc}</span>
+            <span><p style={{ fontFamily: 'Arial', fontWeight: 'bold' }}>商品描述：</p>{detail.descs}</span>
             <span><p style={{ fontFamily: 'Arial', fontWeight: 'bold' }}>商品价格：</p>{detail.price}</span>
             <span><p style={{ fontFamily: 'Arial', fontWeight: 'bold' }}>所属分类：</p>{categoryName}---{shopName}</span>
             <span style={{ height: 120, fontWeight: 'bold' }}>
               商品照片：
               <Image
                 width={120}
-                src={detail.src ? detail.src : 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'}
+                src={detail.src ? detail.src : defaultImg}
               />
             </span>
             <span><p style={{ fontFamily: 'Arial', fontWeight: 'bold' }}>商品详情：</p>{detail.detail}</span>
           </div>
         </Card>
-
       </div>
     </div>
   )

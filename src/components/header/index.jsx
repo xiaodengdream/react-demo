@@ -16,7 +16,7 @@ export default function Header() {
       setTitle('首页')
     } else if (location === '/category') {
       setTitle('品类管理')
-    } else if (['/product/home', '/product/detail'].indexOf(location) !== -1) {
+    } else if (['/product/home', '/product/detail','/product/add'].indexOf(location) !== -1) {
       setTitle('商品管理')
     } else if (location === '/user') {
       setTitle('用户管理')
