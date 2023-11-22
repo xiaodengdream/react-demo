@@ -15,12 +15,12 @@ export default function ProductDetail() {
   const getListName = async (data) => {
     const { shopId, categoryId } = data
     const param1 = {
-      url: 'http://localhost:1000/category/name',
+      url: '/api/category/name',
       type: 'POST',
       data: { categoryId }
     }
     const param2 = {
-      url: 'http://localhost:1000/shop/name',
+      url: '/api/shop/name',
       type: 'POST',
       data: { shopId }
     }

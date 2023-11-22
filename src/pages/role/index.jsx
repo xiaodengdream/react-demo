@@ -18,7 +18,7 @@ export default function Role() {
   //获取所有role信息
   const getRoles = async () => {
     const param = {
-      url: 'http://localhost:1000/role',
+      url: '/api/role',
       type: 'GET',
     }
     setLoading(true)
@@ -37,15 +37,12 @@ export default function Role() {
   //创建角色
   const createRole = async (data) => {
     const param = {
-      url: 'http://localhost:1000/role/add',
+      url: '/api/role/add',
       type: 'POST',
       data: data
     }
     let userData = await ajax(param)
-    messageApi.open({
-      type: 'success',
-      content: userData.data.message,
-    });
+    messageApi.open({ type: 'success', content: userData.data.message });
     if (userData.data.users) {
       setTimeout(() => {
         window.location.reload()
@@ -60,15 +57,12 @@ export default function Role() {
   //设置角色权限
   const setRole = async (data) => {
     const param = {
-      url: 'http://localhost:1000/role/update',
+      url: '/api/role/update',
       type: 'POST',
       data: data
     }
     let roleData = await ajax(param)
-    messageApi.open({
-      type: 'success',
-      content: roleData.data.message,
-    });
+    messageApi.open({ type: 'success', content: roleData.data.message });
     if (roleData.data.roles) {
       setTimeout(() => {
         window.location.reload()

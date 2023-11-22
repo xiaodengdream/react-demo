@@ -7,15 +7,15 @@ import Upmodal from '../../components/upmodal';
 export default function Categrory() {
   const [category, setCategory] = useState([])//一级分类数据
   const [shop, setShop] = useState([])//二级分类数据
-  const [loading, setLoading] = useState()
+  const [loading, setLoading] = useState()//表格数据加载
   const [pid, setPid] = useState(0)//根据id值判断一级还是二级分类
   const [pname, setPname] = useState('')//title中一级分类下的二级名称
-  //新增分类对话框
   const [form] = Form.useForm();//表单数据
   const [isModalOpen, setIsModalOpen] = useState(false);//对话框状态
   const [options, setOptions] = useState([])//表单展示的数据
   const [upData, setUpData] = useState()//更新的对话框
-  const [upshow, setUpshow] = useState(false)
+  const [upshow, setUpshow] = useState(false)//是否展示更新框
+  const [messageApi, contextHolder] = message.useMessage();//message使用
   const handleChange = (value) => {
     /*  console.log(value); */
   };
@@ -50,20 +50,20 @@ export default function Categrory() {
     }
     const param = {
       url: postDatas.parentId === '0' ?
-        'http://localhost:1000/category/add' :
-        'http://localhost:1000/category/shop/add',
+        '/api/category/add' :
+        '/api/category/shop/add',
       type: 'POST',
       data: postDatas
     }
     setLoading(true)
     let addData = await ajax(param)
     if (addData.data.lists) {
+      messageApi.open({ type: 'success', content: addData.data.message});
       setTimeout(() => {
         setLoading(false)
-        message.success(addData.data.message)
       }, 1000);
     } else {
-      message.error(addData.data.message)
+      messageApi.open({ type: 'error', content: addData.data.message});
     }
   }
   //确定对话框
@@ -75,11 +75,10 @@ export default function Categrory() {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-
   //获取一级分类列表
   const getLists = async () => {
     const param = {
-      url: 'http://localhost:1000/category',
+      url: '/api/category',
       type: 'GET',
     }
     setLoading(true)
@@ -94,7 +93,7 @@ export default function Categrory() {
   //获取二级分类列表
   const show = async (data) => {
     const param = {
-      url: 'http://localhost:1000/category/shop',
+      url: '/api/category/shop',
       type: 'POST',
       data: { categoryID: data.id }
     }
@@ -109,8 +108,8 @@ export default function Categrory() {
   const uplists = async (data) => {
     const param = {
       url: data.parentId === '0' ?
-        'http://localhost:1000/category/update' :
-        'http://localhost:1000/category/shop/update',
+        '/api/category/update' :
+        '/api/category/shop/update',
       type: 'POST',
       data: data
     }
@@ -119,10 +118,10 @@ export default function Categrory() {
     if (addData.data.data) {
       setTimeout(() => {
         setLoading(false)
-        message.success(addData.data.message)
+        messageApi.open({ type: 'success', content: addData.data.message});
       }, 1000);
     } else {
-      message.error(addData.data.message)
+      messageApi.open({ type: 'error', content: addData.data.message});
     }
   }
   const upLists = (upData) => {
@@ -134,12 +133,10 @@ export default function Categrory() {
     setPid(0)
     setPname('')
   }
-
   //拿到数据
   useEffect(() => {
     getLists()
   }, [])
-
   //定义一级分类列表title
   const title = pid === 0 ?
     <Button onClick={showCatetory} style={{ color: 'rgb(17,149,121)' }} size='large' type="link">一级分类列表</Button> :
@@ -173,7 +170,6 @@ export default function Categrory() {
       ),
     },
   ];
-
   return (
     <div className='category-content'>
       <div className='category-content-home'>
@@ -200,6 +196,7 @@ export default function Categrory() {
           </Form>
         </Modal>
         <Upmodal upData={upData} uplists={uplists} upshow={upshow} setUpshow={setUpshow} />
+        {contextHolder}
       </div>
     </div>
   )

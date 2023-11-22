@@ -11,7 +11,7 @@ export default function ProductHome() {
     //获取商品列表
     const getShopLists = async () => {
         const param = {
-            url: 'http://localhost:1000/commodity',
+            url: '/api/commodity',
             type: 'GET',
         }
         setLoading(true)
@@ -31,15 +31,12 @@ export default function ProductHome() {
             data.status = 1
         }
         const param = {
-            url: 'http://localhost:1000/commodity/status',
+            url: '/api/commodity/status',
             type: 'POST',
             data: data
         }
         let statusData = await ajax(param)
-        messageApi.open({
-            type: 'success',
-            content: statusData.data.message,
-        });
+        messageApi.open({ type: 'success', content: statusData.data.message });
         if (statusData.data.result) {
             setTimeout(() => {
                 window.location.reload()
@@ -74,6 +71,7 @@ export default function ProductHome() {
             <Button type='primary'>搜索</Button>
         </>
     )
+    //定义card头部
     const extra = (
         <Button onClick={() => navigate('/product/add', { replace: true, state: { type: 'add' } })} type='primary'>
             <PlusOutlined />添加商品

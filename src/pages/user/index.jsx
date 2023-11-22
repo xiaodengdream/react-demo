@@ -15,7 +15,7 @@ export default function User() {
   //获取所有user信息
   const getUsers = async () => {
     const param = {
-      url: 'http://localhost:1000/user',
+      url: '/api/user',
       type: 'GET',
     }
     setLoading(true)
@@ -33,15 +33,12 @@ export default function User() {
   //新增user用户
   const createUser = async (data) => {
     const param = {
-      url: 'http://localhost:1000/user/add',
+      url: '/api/user/add',
       type: 'POST',
       data: data
     }
     let userData = await ajax(param)
-    messageApi.open({
-      type: 'success',
-      content: userData.data.message,
-    });
+    messageApi.open({ type: 'success', content: userData.data.message });
     if (userData.data.users) {
       setTimeout(() => {
         window.location.reload()
@@ -68,15 +65,12 @@ export default function User() {
   //更新user用户
   const updateUser = async (data) => {
     const param = {
-      url: 'http://localhost:1000/user/update',
+      url: '/api/user/update',
       type: 'POST',
       data: data
     }
     let userData = await ajax(param)
-    messageApi.open({
-      type: 'success',
-      content: userData.data.message,
-    });
+    messageApi.open({type: 'success',content: userData.data.message});
     if (userData.data.users) {
       setTimeout(() => {
         window.location.reload()
@@ -86,17 +80,14 @@ export default function User() {
   //确定删除用户
   const confirm = async (data) => {
     const param = {
-      url: 'http://localhost:1000/user/delete',
+      url: '/api/user/delete',
       type: 'POST',
       data: { id: data.id }
     }
     let userData = await ajax(param)
     if (userData.data.users) {
+      messageApi.open({type: 'success',content: userData.data.message});
       setTimeout(() => {
-        messageApi.open({
-          type: 'success',
-          content: userData.data.message,
-        });
         window.location.reload()
       }, 1000);
     }

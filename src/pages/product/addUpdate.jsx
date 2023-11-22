@@ -16,7 +16,7 @@ export default function ProductAddUpdate() {
   //获取一级分类列表
   const getLists = async () => {
     const param = {
-      url: 'http://localhost:1000/category',
+      url: '/api/category',
       type: 'GET',
     }
     let listData = await ajax(param)
@@ -31,7 +31,7 @@ export default function ProductAddUpdate() {
   //获取二级分类列表
   const show = async (targetOption) => {
     const param = {
-      url: 'http://localhost:1000/category/shop',
+      url: '/api/category/shop',
       type: 'POST',
       data: { categoryID: targetOption.value }
     }
@@ -50,7 +50,7 @@ export default function ProductAddUpdate() {
   //添加商品
   const addShop = async (data) => {
     const param = {
-      url: 'http://localhost:1000/commodity/add',
+      url: '/api/commodity/add',
       type: 'POST',
       data: data
     }

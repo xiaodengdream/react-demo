@@ -8,10 +8,10 @@ import ajax from '../../api/ajax';
 import { useNavigate } from "react-router-dom";
 import memoryUtils from '../../utils/memoryUtils';
 import storageUtils from '../../utils/storageUtils';
-
 export default function Login(props) {
-  const user = memoryUtils.user
-  const navigate = useNavigate()
+  const user = memoryUtils.user//拿到内存中的user
+  const navigate = useNavigate()//编程导航跳转
+  const [messageApi, contextHolder] = message.useMessage();//message使用
   //读取user跳转到admin页面
   useEffect(() => {
     if (user.id) {
@@ -36,25 +36,22 @@ export default function Login(props) {
   const onFinish = async (values) => {
     const { username, password } = values
     const param = {
-      url: 'http://localhost:1000/login ',
+      url: '/api/login',
       type: 'POST',
       data: { username, password }
     }
     let loginData = await ajax(param)
-    if (loginData.data.code === 0) {
-      //登录成功，跳转到home页面
-      const user = loginData.data.user
-      //将user存入内存
-      memoryUtils.user = user
-      //将user存入local
-      storageUtils.saveUser(user)
+    if (loginData.data.code === 200) {
+      memoryUtils.user = loginData.data.user //将user存入内存        
+      storageUtils.saveUser(loginData.data.user) //将user存入local
+      storageUtils.setToken(loginData.data.token) //将token存入local
+      messageApi.open({ type: 'success', content: loginData.data.message });
       setTimeout(() => {
-        message.success(loginData.data.message)
-        navigate('/', { replace: true })
+        navigate('/', { replace: true }) //登录成功，跳转到home页面
       }, 1000);
     } else {
       //登录失败
-      message.error(loginData.data.message)
+      messageApi.open({ type: 'error', content: loginData.data.message });
     }
   };
   return (
@@ -91,6 +88,7 @@ export default function Login(props) {
             </Button>
           </Form.Item>
         </Form>
+        {contextHolder}
       </div>
     </div >
   )

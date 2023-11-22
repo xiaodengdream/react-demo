@@ -6,8 +6,8 @@ import LeftNav from '../../components/left-nav'
 import Header from '../../components/header'
 export default function Admin() {
   const { Sider, Content } = Layout;
-  const user = memoryUtils.user
-  const navigate = useNavigate()
+  const user = memoryUtils.user//拿到内存中的user
+  const navigate = useNavigate()//编程导航跳转
   //读取不到内存中user跳转到登录页面
   useEffect(() => {
     if (!user.id) {
